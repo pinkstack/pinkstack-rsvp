@@ -51,4 +51,9 @@ object Dependencies {
   lazy val cats: Seq[ModuleID] = Seq(
     "org.typelevel" %% "cats-core" % V.cats
   )
+
+  lazy val tests: Seq[ModuleID] = Seq(
+    "org.scalactic" %% "scalactic" % "3.1.1",
+    "org.scalatest" %% "scalatest" % "3.1.1" % "test"
+  )
 }

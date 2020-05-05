@@ -16,39 +16,6 @@ final case class RSVP(rsvp_id: Int,
 object RSVP {
   implicit val decoder: Decoder[RSVP] = deriveDecoder[RSVP]
   implicit val encoder: Encoder[RSVP] = deriveEncoder[RSVP]
-
-  // Conversion to RSVPDetected
-  /*
-  implicit def rsvpToRSVPDetected(r: RSVP): com.rsvpbox.models.RSVPDetected = {
-    import com.rsvpbox.models._
-
-    val groupTopics = r.group.group_topics.map { tr =>
-      new com.rsvpbox.models.GroupTopicsRecord(tr.urlkey, tr.topic_name)
-    }.asJava
-
-    new RSVPDetected(
-      new com.rsvpbox.models.Venue(r.venue.venue_name, r.venue.lon, r.venue.lat, r.venue.venue_id.asInstanceOf[Int]),
-      r.visibility,
-      r.response,
-      r.guests,
-      new com.rsvpbox.models.Member(r.member.member_id, r.member.photo.getOrElse(""), r.member.member_name),
-      r.rsvp_id,
-      r.mtime,
-      new com.rsvpbox.models.Event(r.event.event_name, r.event.event_id, r.event.time, r.event.event_url),
-      new com.rsvpbox.models.Group(
-        groupTopics,
-        r.group.group_city,
-        r.group.group_country,
-        r.group.group_id,
-        r.group.group_name,
-        r.group.group_lon.getOrElse(-1.0).asInstanceOf[Float],
-        r.group.group_urlname,
-        r.group.group_state.getOrElse("Unknown"),
-        r.group.group_lat.getOrElse(-1.0).asInstanceOf[Float]
-      )
-    )
-  }
-   */
 }
 
 final case class Member(member_id: Int, photo: Option[String], member_name: String)

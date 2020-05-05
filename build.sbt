@@ -1,5 +1,7 @@
 import Dependencies._
 import Settings._
+import scala.sys.process._
+
 
 lazy val feeder = (project in file("feeder"))
   .settings(sharedSettings: _*)
@@ -10,7 +12,7 @@ lazy val feeder = (project in file("feeder"))
     publish / aggregate := false,
     libraryDependencies ++=
       akka ++ akkaHttp ++ configLibs ++ logging ++ circe
-        ++ avro ++ cats
+        ++ avro ++ cats ++ tests
   )
   .dependsOn(domain)
   .enablePlugins(JavaServerAppPackaging, DockerPlugin)
@@ -20,7 +22,13 @@ lazy val domain = (project in file("domain"))
   .settings(
     name := "rsvp-domain",
     libraryDependencies ++=
-      avro ++ cats ++ circe
+      avro ++ cats ++ circe ++ tests
   )
 
-addCommandAlias("dockerize", ";compile;docker:publishLocal")
+// Commands and tasks
+addCommandAlias("dockerize", ";test;compile;docker:publishLocal")
+
+lazy val tagPushFeederApp: TaskKey[Unit] = taskKey[Unit]("Tags FeederApp image and pushes it to Docker Hub")
+tagPushFeederApp := {
+  "./bin/tag-push-feeder-app.sh" !
+}
