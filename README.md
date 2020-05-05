@@ -4,7 +4,7 @@
 
 [![rsvp-feeder-shield][rsvp-feeder-shield]][rsvp-feeder-docker-hub]
 
-Purpose of this micro-service is to connect to Meetup.com RSVPs WebSocket and pipe the data to Kafka topic. The feeding is done with a AVRO backed schema using Kafka's Schema Registry.
+Purpose of this micro-service is to connect to [Meetup.com RSVPs WebSocket][meetup-com-rsvp-ws] and pipe the data to Kafka topic. The feeding is done with a AVRO backed schema using Kafka's Schema Registry.
 
 The service needs the following environment variables
 
@@ -27,3 +27,4 @@ sbt "doockerize;tagPushFeederApp"
 
 [rsvp-feeder-docker-hub]: https://hub.docker.com/r/pinkstack/rsvp-feeder
 [rsvp-feeder-shield]: https://img.shields.io/docker/pulls/pinkstack/rsvp-feeder
+[meetup-com-rsvp-ws]: http://meetup.github.io/stream/rsvpTicker/
