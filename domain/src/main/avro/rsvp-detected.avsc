@@ -1,0 +1,160 @@
+{
+  "name": "RSVPDetected",
+  "namespace": "com.pinkstack.rsvp.domain.collected",
+  "type": "record",
+  "doc": "RSVP record getting into the system from Meetup.com",
+  "fields": [
+    {
+      "name": "venue",
+      "type": {
+        "fields": [
+          {
+            "name": "venue_name",
+            "type": "string"
+          },
+          {
+            "name": "lon",
+            "type": "float"
+          },
+          {
+            "name": "lat",
+            "type": "float"
+          },
+          {
+            "name": "venue_id",
+            "type": "int"
+          }
+        ],
+        "name": "Venue",
+        "type": "record"
+      }
+    },
+    {
+      "name": "visibility",
+      "type": "string"
+    },
+    {
+      "name": "response",
+      "type": "string"
+    },
+    {
+      "name": "guests",
+      "type": "int"
+    },
+    {
+      "name": "member",
+      "type": {
+        "fields": [
+          {
+            "name": "member_id",
+            "type": "int"
+          },
+          {
+            "name": "photo",
+            "type": "string"
+          },
+          {
+            "name": "member_name",
+            "type": "string"
+          }
+        ],
+        "name": "Member",
+        "type": "record"
+      }
+    },
+    {
+      "name": "rsvp_id",
+      "type": "int"
+    },
+    {
+      "name": "mtime",
+      "type": "long"
+    },
+    {
+      "name": "event",
+      "type": {
+        "fields": [
+          {
+            "name": "event_name",
+            "type": "string"
+          },
+          {
+            "name": "event_id",
+            "type": "string"
+          },
+          {
+            "name": "time",
+            "type": "long"
+          },
+          {
+            "name": "event_url",
+            "type": "string"
+          }
+        ],
+        "name": "Event",
+        "type": "record"
+      }
+    },
+    {
+      "name": "group",
+      "type": {
+        "fields": [
+          {
+            "name": "group_topics",
+            "type": {
+              "items": {
+                "fields": [
+                  {
+                    "name": "urlkey",
+                    "type": "string"
+                  },
+                  {
+                    "name": "topic_name",
+                    "type": "string"
+                  }
+                ],
+                "name": "GroupTopicsRecord",
+                "type": "record"
+              },
+              "type": "array"
+            }
+          },
+          {
+            "name": "group_city",
+            "type": "string"
+          },
+          {
+            "name": "group_country",
+            "type": "string"
+          },
+          {
+            "name": "group_id",
+            "type": "int"
+          },
+          {
+            "name": "group_name",
+            "type": "string"
+          },
+          {
+            "name": "group_lon",
+            "type": "float"
+          },
+          {
+            "name": "group_urlname",
+            "type": "string"
+          },
+          {
+            "name": "group_state",
+            "type": "string"
+          },
+          {
+            "name": "group_lat",
+            "type": "float"
+          }
+        ],
+        "name": "Group",
+        "type": "record"
+      }
+    }
+  ]
+}
