@@ -1,0 +1,12 @@
+apiVersion: skaffold/v2beta3
+kind: Config
+metadata:
+  name: pinkstack-rsvp
+build:
+  artifacts:
+  - image: pinkstack/rsvp-feeder
+    context: feeder/target/docker/stage
+deploy:
+  kubectl:
+    manifests:
+    - kubernetes/rsvp-deployment.yaml

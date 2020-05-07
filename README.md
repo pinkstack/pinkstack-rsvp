@@ -25,6 +25,17 @@ To build and push the rsvp-feeder into Docker Hub use the convinient combination
 sbt "doockerize;tagPushFeederApp"
 ```
 
+## KSQL
+
+```bash
+ksql http://localhost:8088
+```
+
+```sql
+create stream rsvps with(kafka_topic='rsvps', value_format='AVRO');
+describe hello_ksql;
+```
+
 [rsvp-feeder-docker-hub]: https://hub.docker.com/r/pinkstack/rsvp-feeder
 [rsvp-feeder-shield]: https://img.shields.io/docker/pulls/pinkstack/rsvp-feeder
 [meetup-com-rsvp-ws]: http://meetup.github.io/stream/rsvpTicker/

@@ -85,7 +85,9 @@ object FeederApp extends App with LazyLogging {
   } yield outFlow
 
   p match {
-    case Left(e) => logger.error(e.getMessage)
+    case Left(e) =>
+      logger.error(e.getMessage)
+      system.terminate()
     case _ => logger.info("Booted.")
   }
 }
