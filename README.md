@@ -11,6 +11,7 @@ The service needs the following environment variables
 ```bash
 SCHEMA_REGISTRY_URL=http://schema-registry:8081
 BOOTSTRAP_SERVERS=kafka-broker-server:9092
+RSVP_TOPIC=rsvps # Topic for RSVPs
 ```
 
 The service can be build from this repository via following `sbt` invocation. This will pull all dependencies, compile everything, run tests and package the FeederApp into Docker image `pinkstack/rsvp-feeder` with tags `[0.1.0-SNAPSHOT, latest, local]`
