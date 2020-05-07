@@ -25,13 +25,13 @@ To build and push the rsvp-feeder image into Docker Hub use the convinient combi
 sbt "doockerize;tagPushFeederApp"
 ```
 
-### Deployment with kubectl
+### Deployment with `kubectl`
 
 ```bash
 sbt dockerize && kubectl apply -f kubernetes/rsvp-deployment.yaml
 ```
 
-### Deployment with Skaffold
+### Deployment with `skaffold`
 
 ```bash
 sbt dockerize && skaffold run
