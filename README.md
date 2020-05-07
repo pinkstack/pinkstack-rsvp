@@ -52,6 +52,10 @@ describe hello_ksql;
 
 - [Meetup.com - Long-Polling RSVP Stream](https://www.meetup.com/meetup_api/docs/stream/2/rsvps/)
 
+## Author
+
+- [Oto Brglez](https://github.com/otobrglez)
+
 [rsvp-feeder-docker-hub]: https://hub.docker.com/r/pinkstack/rsvp-feeder
 [rsvp-feeder-shield]: https://img.shields.io/docker/pulls/pinkstack/rsvp-feeder
 [meetup-com-rsvp-ws]: http://meetup.github.io/stream/rsvpTicker/
