@@ -4,7 +4,7 @@
 
 [![rsvp-feeder-shield][rsvp-feeder-shield]][rsvp-feeder-docker-hub]
 
-Purpose of this micro-service is to connect to [Meetup.com RSVPs WebSocket][meetup-com-rsvp-ws] and pipe the data to Kafka topic. The feeding is done with a AVRO backed schema using Kafka's Schema Registry.
+Purpose of this service is to connect to [Meetup.com RSVPs WebSocket][meetup-com-rsvp-ws] and pipe the data to a Kafka topic. The feeding is done with a AVRO backed schema using Kafka's Schema Registry.
 
 The service needs the following environment variables
 
@@ -19,10 +19,22 @@ The service can be build from this repository via following `sbt` invocation. Th
 sbt dockerize
 ```
 
-To build and push the rsvp-feeder into Docker Hub use the convinient combination of `dockerize` and `tagPushFeederApp`. This will create the image and tag it with 6 letter "tag" so that it can be furhter used in something like Kubernetes or HELM. Custom task `tagPushFeederApp` invokes [`tag-push-feeder-app.sh`](bin/tag-push-feeder-app.sh) BASH shell script.
+To build and push the rsvp-feeder image into Docker Hub use the convinient combination of `dockerize` and `tagPushFeederApp`. This will create the image and tag it with 6 letter "tag" so that it can be furhter used in something like Kubernetes or HELM. Custom task `tagPushFeederApp` invokes [`tag-push-feeder-app.sh`](bin/tag-push-feeder-app.sh) BASH shell script.
 
 ```bash
 sbt "doockerize;tagPushFeederApp"
+```
+
+### Deployment with kubectl
+
+```bash
+sbt dockerize && kubectl apply -f kubernetes/rsvp-deployment.yaml
+```
+
+### Deployment with Skaffold
+
+```bash
+sbt dockerize && skaffold run
 ```
 
 ## KSQL
