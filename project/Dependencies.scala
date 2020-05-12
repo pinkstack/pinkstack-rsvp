@@ -19,7 +19,8 @@ object Dependencies {
   lazy val akka: Seq[ModuleID] = Seq(
     "com.typesafe.akka" %% "akka-actor" % V.akka,
     "com.typesafe.akka" %% "akka-stream" % V.akka,
-    "com.typesafe.akka" %% "akka-stream-kafka" % V.akkaStreamKafka
+    "com.typesafe.akka" %% "akka-stream-kafka" % V.akkaStreamKafka,
+    "com.typesafe.akka" %% "akka-stream-testkit" % V.akka % Test
   )
 
   lazy val akkaHttp: Seq[ModuleID] = Seq(
