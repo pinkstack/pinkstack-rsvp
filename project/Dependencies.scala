@@ -12,6 +12,7 @@ object Dependencies {
     val avro = "1.9.2"
     val cats = "2.1.1"
     val kafkaAvroSerializer = "5.4.1"
+    val kafkaStreamsAvroSerde = "5.5.0"
     val scalaLogging = "3.9.2"
     val logbackClassic = "1.2.3"
   }
@@ -46,6 +47,7 @@ object Dependencies {
 
   lazy val avro: Seq[ModuleID] = Seq(
     "io.confluent" % "kafka-avro-serializer" % V.kafkaAvroSerializer,
+    "io.confluent" % "kafka-streams-avro-serde" % V.kafkaStreamsAvroSerde,
     "org.apache.avro" % "avro" % V.avro
   )
 
