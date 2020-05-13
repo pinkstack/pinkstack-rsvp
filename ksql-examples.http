@@ -1,0 +1,12 @@
+###
+POST http://one-cp-ksql-server:8088/query
+Content-Type: application/vnd.ksql.v1+json; charset=utf-8
+
+{
+  "ksql": "SELECT * FROM TOP_EVENTS emit changes;",
+  "streamsProperties": {
+    "ksql.streams.auto.offset.reset": "latest"
+  }
+}
+
+###

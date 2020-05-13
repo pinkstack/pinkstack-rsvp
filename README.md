@@ -44,23 +44,29 @@ sbt dockerize && skaffold run
 ksql http://localhost:8088
 ```
 
-Creating a `rsvps` stream out of `rsvps` topic
-```sql
-create stream rsvps with(kafka_topic='rsvps', value_format='AVRO');
-describe hello_ksql;
+Creating a `hot_rsvps` stream out of `rsvps` topic
+
+```SQL
+CREATE STREAM hot_rsvps WITH(
+    kafka_topic='rsvps', 
+    value_format='AVRO', 
+    KEY='rsvp_id', 
+    TIMESTAMP='mtime');
+
+DESCRIBE hot_rsvps;
 ```
 
-```sql
-CREATE TABLE top_events AS
-  SELECT 
-      -- `GROUP`->GROUP_NAME AS group_name
-      `EVENT`->EVENT_ID,
-      `EVENT`->EVENT_NAME as event_name,
-      COUNT(*) as number_of_rsvps
-  FROM RSVPS r
-  -- ORDER BY number_of_rsvps DESC
-  GROUP BY `EVENT`->EVENT_ID, `EVENT`->EVENT_NAME
-  EMIT CHANGES;
+```SQL
+CREATE TABLE TOP_EVENTS AS
+    SELECT  event->event_id AS event_id, 
+            event->event_name AS event_name,
+            COUNT(*) as u_count FROM hot_rsvps 
+    WINDOW 
+        TUMBLING (SIZE 5 MINUTES) 
+    GROUP BY event->event_id,
+        event->event_name
+    HAVING COUNT(*) > 1
+    EMIT CHANGES;
 ```
 
 ## Resources
