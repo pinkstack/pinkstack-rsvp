@@ -60,7 +60,8 @@ DESCRIBE hot_rsvps;
 CREATE TABLE TOP_EVENTS AS
     SELECT  event->event_id AS event_id, 
             event->event_name AS event_name,
-            COUNT(*) as u_count FROM hot_rsvps 
+            COUNT(*) as u_count 
+    FROM hot_rsvps 
     WINDOW 
         TUMBLING (SIZE 5 MINUTES) 
     GROUP BY event->event_id,
