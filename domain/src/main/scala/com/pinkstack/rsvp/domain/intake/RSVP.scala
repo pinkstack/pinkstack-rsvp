@@ -1,9 +1,10 @@
 package com.pinkstack.rsvp.domain.intake
 
+import com.sksamuel.avro4s.RecordFormat
 import io.circe.generic.semiauto._
 import io.circe.{Decoder, Encoder}
 
-final case class RSVP(rsvp_id: Int,
+final case class RSVP(rsvp_id: Long,
                       mtime: Long,
                       visibility: String,
                       response: String,
@@ -16,6 +17,8 @@ final case class RSVP(rsvp_id: Int,
 object RSVP {
   implicit val decoder: Decoder[RSVP] = deriveDecoder[RSVP]
   implicit val encoder: Encoder[RSVP] = deriveEncoder[RSVP]
+
+  implicit val recordFormat: RecordFormat[RSVP] = RecordFormat[RSVP]
 }
 
 final case class Member(member_id: Int, photo: Option[String], member_name: String)

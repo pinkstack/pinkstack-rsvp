@@ -10,9 +10,8 @@ lazy val feeder = (project in file("feeder"))
     name := "rsvp-feeder",
     Compile / mainClass := Some("com.pinkstack.rsvp.feeder.FeederApp"),
     publish / aggregate := false,
-    libraryDependencies ++=
-      akka ++ akkaHttp ++ configLibs ++ logging ++ circe
-        ++ avro ++ cats ++ tests
+    libraryDependencies ++= akka ++ akkaHttp ++ configLibs ++ logging ++ circe
+      ++ avro ++ avroKafka ++ cats ++ tests
   )
   .dependsOn(domain)
   .enablePlugins(JavaServerAppPackaging, DockerPlugin)
@@ -21,8 +20,7 @@ lazy val domain = (project in file("domain"))
   .settings(sharedSettings: _*)
   .settings(
     name := "rsvp-domain",
-    libraryDependencies ++=
-      avro ++ cats ++ circe ++ tests
+    libraryDependencies ++= avro ++ cats ++ circe ++ tests
   )
 
 // Commands and tasks

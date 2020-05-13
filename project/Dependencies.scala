@@ -10,6 +10,7 @@ object Dependencies {
     val circe = "0.12.3"
     val circeConfig = "0.7.0"
     val avro = "1.9.2"
+    val avro4s = "3.1.0"
     val cats = "2.1.1"
     val kafkaAvroSerializer = "5.4.1"
     val kafkaStreamsAvroSerde = "5.5.0"
@@ -45,10 +46,13 @@ object Dependencies {
     "io.circe" %% "circe-config" % V.circeConfig
   )
 
-  lazy val avro: Seq[ModuleID] = Seq(
+  lazy val avroKafka: Seq[ModuleID] = Seq(
     "io.confluent" % "kafka-avro-serializer" % V.kafkaAvroSerializer,
-    "io.confluent" % "kafka-streams-avro-serde" % V.kafkaStreamsAvroSerde,
-    "org.apache.avro" % "avro" % V.avro
+    "io.confluent" % "kafka-streams-avro-serde" % V.kafkaStreamsAvroSerde
+  )
+
+  lazy val avro: Seq[ModuleID] = Seq(
+    "com.sksamuel.avro4s" %% "avro4s-core" % V.avro4s
   )
 
   lazy val cats: Seq[ModuleID] = Seq(
