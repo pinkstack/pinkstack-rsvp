@@ -1,8 +1,7 @@
 package com.pinkstack.rsvp.feeder
 
 import kamon.Kamon
-
-import akka.NotUsed
+import akka.{Done, NotUsed}
 import akka.actor.ActorSystem
 import akka.http.scaladsl._
 import akka.http.scaladsl.model.ws._
@@ -57,6 +56,11 @@ object FeederApp extends App with LazyLogging {
         implicitly[RecordFormat[RSVP]].to(rsvp))
     }
 
+    val rsvpsPushed = Kamon.counter("feeder.rsvps.pushed").withoutTags()
+    val counterSink = Sink.foreach[ProducerRecord[Key, GenericRecord]] { _ =>
+      rsvpsPushed.increment()
+    }
+
     Flow[Message]
       .collect {
         case TextMessage.Strict(text) => Future.successful(parse(text))
@@ -69,11 +73,11 @@ object FeederApp extends App with LazyLogging {
       .collect { case Right(rsvp: RSVP) => rsvp }
       .log("feeder")
       .addAttributes(Attributes.logLevels(
-        // onElement = Attributes.LogLevels.Info,
         onFailure = Attributes.LogLevels.Error,
         onFinish = Attributes.LogLevels.Info)
       )
       .map(toAvro)
+      .alsoTo(counterSink)
       .to(Producer.plainSink(producerSettings))
   }
 
