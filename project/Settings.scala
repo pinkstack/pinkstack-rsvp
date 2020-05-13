@@ -39,11 +39,12 @@ object Settings {
     dockerUsername := Some("pinkstack"),
     dockerUpdateLatest := true,
     dockerAliases ++= Seq(dockerAlias.value.withTag(Option("local"))),
-    dockerBaseImage := "azul/zulu-openjdk-alpine:14",
+    dockerBaseImage := "azul/zulu-openjdk-alpine:11",
+    dockerExposedPorts ++= Seq(9095, 5266),
     dockerCommands := dockerCommands.value.flatMap {
       case add@Cmd("RUN", args@_*) if args.contains("id") =>
         List(
-          Cmd("RUN", "apk add --no-cache bash jq curl"),
+          Cmd("RUN", "apk add --no-cache bash jq curl udev"),
           Cmd("ENV", "SBT_VERSION", sbtVersion.value),
           Cmd("ENV", "SCALA_VERSION", scalaVersion.value),
           add

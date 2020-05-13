@@ -1,5 +1,7 @@
 package com.pinkstack.rsvp.feeder
 
+import kamon.Kamon
+
 import akka.NotUsed
 import akka.actor.ActorSystem
 import akka.http.scaladsl._
@@ -8,15 +10,14 @@ import akka.kafka.ProducerSettings
 import akka.kafka.scaladsl.Producer
 import akka.stream.Attributes
 import akka.stream.scaladsl._
-import com.pinkstack.rsvp.domain.intake.RSVP
 import com.sksamuel.avro4s.RecordFormat
 import com.typesafe.scalalogging.LazyLogging
 import io.circe.{Error, _}
 import io.confluent.kafka.serializers.{AbstractKafkaSchemaSerDeConfig, KafkaAvroDeserializerConfig, KafkaAvroSerializer}
-
 import org.apache.avro.generic.GenericRecord
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.common.serialization._
+import com.pinkstack.rsvp.domain.intake.RSVP
 
 import scala.concurrent.duration._
 import scala.concurrent.{ExecutionContext, Future}
@@ -24,6 +25,8 @@ import scala.util.Success
 
 object FeederApp extends App with LazyLogging {
   type Key = java.lang.Long
+
+  Kamon.init()
 
   implicit val system: ActorSystem = ActorSystem("FeederApp")
   implicit val ec: ExecutionContext = system.dispatcher

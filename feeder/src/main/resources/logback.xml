@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <!--
+        READ https://kamon.io/docs/latest/guides/common-tweaks/logging-with-context/
+    -->
+    <conversionRule conversionWord="traceID" converterClass="kamon.instrumentation.logback.tools.TraceIDConverter"/>
+    <conversionRule conversionWord="spanID" converterClass="kamon.instrumentation.logback.tools.SpanIDConverter"/>
+    <conversionRule conversionWord="contextTag"
+                    converterClass="kamon.instrumentation.logback.tools.ContextTagConverter"/>
+    <conversionRule conversionWord="contextEntry"
+                    converterClass="kamon.instrumentation.logback.tools.ContextEntryConverter"/>
+
     <appender name="LOCAL" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <!-- <pattern>%-5level [%thread] %d{HH:mm:ss.SSS} %logger{15} - %msg%n%rEx</pattern> -->
@@ -30,7 +40,11 @@
     <logger name="org.neo4j" level="DEBUG"/>
     <logger name="neotypes" level="DEBUG"/>
 
-    <logger name="io.confluent" level="DEBUG" />
+    <logger name="io.confluent" level="DEBUG"/>
+
+    <logger name="oshi" level="WARN" />
+    <logger name="oshi.util.FileUtil" level="OFF" />
+
 
     <!-- Debugging
     <logger name="com.zaxxer" level="DEBUG"/>

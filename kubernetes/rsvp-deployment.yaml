@@ -6,6 +6,7 @@ metadata:
 data:
   SCHEMA_REGISTRY_URL: http://one-cp-schema-registry:8081
   BOOTSTRAP_SERVERS: one-cp-kafka:9092
+  KAMON_AMP_API_KEY: av2ap94b6uicb2ccifnurbc405
 ---
 apiVersion: apps/v1
 kind: Deployment

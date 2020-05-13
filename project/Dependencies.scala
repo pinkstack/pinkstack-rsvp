@@ -29,6 +29,14 @@ object Dependencies {
     "com.typesafe.akka" %% "akka-http" % V.akkaHttp
   )
 
+  lazy val kamon: Seq[ModuleID] = Seq(
+    "io.kamon" %% "kamon-bundle" % "2.1.0",
+    "io.kamon" %% "kamon-akka" % "2.1.0",
+    "io.kamon" %% "kamon-prometheus" % "2.1.0",
+    "io.kamon" %% "kamon-status-page" % "2.1.0",
+    "io.kamon" %% "kamon-apm-reporter" % "2.1.0"
+  )
+
   lazy val configLibs: Seq[ModuleID] = Seq(
     "com.typesafe" % "config" % V.typesafeConfig
   )
@@ -62,5 +70,9 @@ object Dependencies {
   lazy val tests: Seq[ModuleID] = Seq(
     "org.scalactic" %% "scalactic" % "3.1.1",
     "org.scalatest" %% "scalatest" % "3.1.1" % "test"
+  )
+
+  lazy val javaAgentsLibs: Seq[ModuleID] = Seq(
+    "io.kamon" % "kanela-agent" % "1.0.5"
   )
 }
