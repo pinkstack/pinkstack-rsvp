@@ -4,7 +4,8 @@
 
 [![rsvp-feeder-shield][rsvp-feeder-shield]][rsvp-feeder-docker-hub]
 
-Purpose of this service is to connect to [Meetup.com RSVPs WebSocket][meetup-com-rsvp-ws] and pipe the data to a Kafka topic. The feeding is done with a AVRO backed schema using Kafka's Schema Registry.
+Purpose of this service is to connect to [Meetup.com RSVPs WebSocket][meetup-com-rsvp-ws] and pipe the data to a Kafka topic. 
+The feeding is being done with a AVRO backed schema using Kafka's Schema Registry.
 
 The service needs the following environment variables
 
@@ -12,30 +13,35 @@ The service needs the following environment variables
 SCHEMA_REGISTRY_URL=http://schema-registry:8081
 BOOTSTRAP_SERVERS=kafka-broker-server:9092
 RSVP_TOPIC=rsvps # Topic for RSVPs
+KAMON_AMP_API_KEY="kamon amp key"
 ```
 
-The service can be build from this repository via following `sbt` invocation. This will pull all dependencies, compile everything, run tests and package the FeederApp into Docker image `pinkstack/rsvp-feeder` with tags `[0.1.0-SNAPSHOT, latest, local]`
+The service can be build from this repository via following `sbt` invocation. 
+This will pull all dependencies, compile everything, run tests and package the `FeederApp` into 
+Docker image `pinkstack/rsvp-feeder` with tags `[0.1.0-SNAPSHOT, latest, local]`
 
 ```bash
 sbt dockerize
 ```
 
-To build and push the rsvp-feeder image into Docker Hub use the convinient combination of `dockerize` and `tagPushFeederApp`. This will create the image and tag it with 6 letter "tag" so that it can be furhter used in something like Kubernetes or HELM. Custom task `tagPushFeederApp` invokes [`tag-push-feeder-app.sh`](bin/tag-push-feeder-app.sh) BASH shell script.
+To build and push the rsvp-feeder image into Docker Hub use the combination of `dockerize` and `tagPushFeederApp`. 
+This will create the image and tag it with 6 letters "tag" so that it can be used in something like Kubernetes or HELM. 
+Custom task `tagPushFeederApp` invokes [`tag-push-feeder-app.sh`](bin/tag-push-feeder-app.sh) BASH shell script.
 
 ```bash
 sbt "doockerize;tagPushFeederApp"
+```
+
+### Deployment with `skaffold`
+
+```bash
+sbt dockerize && skaffold run --tail=true
 ```
 
 ### Deployment with `kubectl`
 
 ```bash
 sbt dockerize && kubectl apply -f kubernetes/rsvp-deployment.yaml
-```
-
-### Deployment with `skaffold`
-
-```bash
-sbt dockerize && skaffold run
 ```
 
 ## KSQL Experiments
@@ -69,6 +75,15 @@ CREATE TABLE TOP_EVENTS AS
     HAVING COUNT(*) > 1
     EMIT CHANGES;
 ```
+
+## HELM & K8
+
+```bash
+helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+helm install one confluentinc/cp-helm-charts --atomic -f charts/kafka-values.yaml
+```
+
+
 
 ## Resources
 

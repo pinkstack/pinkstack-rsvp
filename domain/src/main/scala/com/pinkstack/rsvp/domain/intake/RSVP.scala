@@ -12,7 +12,7 @@ final case class RSVP(rsvp_id: Long,
                       member: Member,
                       event: Event,
                       group: Group,
-                      venue: Venue)
+                      venue: Option[Venue] = None)
 
 object RSVP {
   implicit val decoder: Decoder[RSVP] = deriveDecoder[RSVP]
@@ -28,7 +28,7 @@ object Member {
   implicit val encoder: Encoder[Member] = deriveEncoder[Member]
 }
 
-final case class Event(event_name: String, event_id: String, time: Long, event_url: String)
+final case class Event(event_name: String, event_id: String, event_url: String, time: Option[Long] = None)
 
 object Event {
   implicit val decoder: Decoder[Event] = deriveDecoder[Event]
