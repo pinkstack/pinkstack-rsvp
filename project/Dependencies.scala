@@ -16,13 +16,22 @@ object Dependencies {
     val kafkaStreamsAvroSerde = "5.5.0"
     val scalaLogging = "3.9.2"
     val logbackClassic = "1.2.3"
+    val kamonVersion = "2.1.0"
+    val scalaTest = "3.1.1"
   }
+
+  lazy val TestAndIT = "test,it"
 
   lazy val akka: Seq[ModuleID] = Seq(
     "com.typesafe.akka" %% "akka-actor" % V.akka,
     "com.typesafe.akka" %% "akka-stream" % V.akka,
     "com.typesafe.akka" %% "akka-stream-kafka" % V.akkaStreamKafka,
-    "com.typesafe.akka" %% "akka-stream-testkit" % V.akka % Test
+
+    // Testkits
+    "com.typesafe.akka" %% "akka-stream-testkit" % V.akka % TestAndIT,
+    "com.typesafe.akka" %% "akka-stream-kafka-testkit" % V.akkaStreamKafka % TestAndIT,
+
+    "org.testcontainers" % "kafka" % "1.14.1" % TestAndIT
   )
 
   lazy val akkaHttp: Seq[ModuleID] = Seq(
@@ -30,12 +39,12 @@ object Dependencies {
   )
 
   lazy val kamon: Seq[ModuleID] = Seq(
-    "io.kamon" %% "kamon-bundle" % "2.1.0",
-    "io.kamon" %% "kamon-core" % "2.1.0",
-    "io.kamon" %% "kamon-akka" % "2.1.0",
-    "io.kamon" %% "kamon-prometheus" % "2.1.0",
-    "io.kamon" %% "kamon-status-page" % "2.1.0",
-    "io.kamon" %% "kamon-apm-reporter" % "2.1.0"
+    "io.kamon" %% "kamon-bundle" % V.kamonVersion,
+    "io.kamon" %% "kamon-core" % V.kamonVersion,
+    "io.kamon" %% "kamon-akka" % V.kamonVersion,
+    "io.kamon" %% "kamon-prometheus" % V.kamonVersion,
+    "io.kamon" %% "kamon-status-page" % V.kamonVersion,
+    "io.kamon" %% "kamon-apm-reporter" % V.kamonVersion
   )
 
   lazy val configLibs: Seq[ModuleID] = Seq(
@@ -69,8 +78,8 @@ object Dependencies {
   )
 
   lazy val tests: Seq[ModuleID] = Seq(
-    "org.scalactic" %% "scalactic" % "3.1.1",
-    "org.scalatest" %% "scalatest" % "3.1.1" % "test"
+    "org.scalactic" %% "scalactic" % V.scalaTest,
+    "org.scalatest" %% "scalatest" % V.scalaTest % Test
   )
 
   lazy val javaAgentsLibs: Seq[ModuleID] = Seq(

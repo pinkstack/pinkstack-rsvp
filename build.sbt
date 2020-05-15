@@ -4,6 +4,7 @@ import scala.sys.process._
 
 
 lazy val feeder = (project in file("feeder"))
+  .configs(IntegrationTest).settings(Defaults.itSettings)
   .settings(sharedSettings: _*)
   .settings(dockerSettings: _*)
   .settings(

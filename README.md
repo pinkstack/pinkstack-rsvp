@@ -76,6 +76,15 @@ CREATE TABLE TOP_EVENTS AS
     EMIT CHANGES;
 ```
 
+## HELM & K8
+
+```bash
+helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
+helm install one confluentinc/cp-helm-charts --atomic -f charts/kafka-values.yaml
+```
+
+
+
 ## Resources
 
 - [Meetup.com - Long-Polling RSVP Stream](https://www.meetup.com/meetup_api/docs/stream/2/rsvps/)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+        READ https://kamon.io/docs/latest/guides/common-tweaks/logging-with-context/
+    -->
+    <conversionRule conversionWord="traceID" converterClass="kamon.instrumentation.logback.tools.TraceIDConverter"/>
+    <conversionRule conversionWord="spanID" converterClass="kamon.instrumentation.logback.tools.SpanIDConverter"/>
+    <conversionRule conversionWord="contextTag"
+                    converterClass="kamon.instrumentation.logback.tools.ContextTagConverter"/>
+    <conversionRule conversionWord="contextEntry"
+                    converterClass="kamon.instrumentation.logback.tools.ContextEntryConverter"/>
+
+    <appender name="LOCAL" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!-- <pattern>%-5level [%thread] %d{HH:mm:ss.SSS} %logger{15} - %msg%n%rEx</pattern> -->
+            <!-- <pattern>%date{yyyy-MM-dd} %X{akkaTimestamp} %-5level[%thread] %logger{1} - %msg%n</pattern> -->
+            <!-- <pattern>%-5level %logger{36}: %msg%n</pattern> -->
+            <!-- <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %class{36}.%M %L - %msg%n</pattern> -->
+            <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="com.pinkstack.rsvp" level="DEBUG"/>
+
+    <logger name="akka" level="INFO"/>
+
+    <root level="DEBUG">
+        <appender-ref ref="LOCAL"/>
+    </root>
+
+
+    <logger name="org.apache.kafka.clients" level="INFO"/>
+
+    <!-- Debugging
+    <logger name="com.zaxxer" level="DEBUG"/>
+    <logger name="org.postgresql" level="DEBUG"/>
+    -->
+
+
+    <!--
+    <logger name="com.pollpass" level="${POLLPASS_LOG_LEVEL:-INFO}" />
+    <logger name="akka" level="${AKKA_LOG_LEVEL:-INFO}" />
+    <logger name="oshi.util" level="INFO" />
+
+    <root level="${ROOT_LOG_LEVEL:-INFO}">
+      <appender-ref ref="${DEPLOYMENT:-GCP}" />
+      <appender-ref ref="BUGSNAG"/>
+    </root>
+    -->
+</configuration>
