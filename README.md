@@ -79,10 +79,10 @@ CREATE TABLE TOP_EVENTS AS
 Stream with flattened location for compliance with [ElasticSearch Geo-point datatype](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html).
 
 ```SQL
+CREATE STREAM rsvps_formatted WITH (VALUE_FORMAT='JSON') AS
 SELECT 
   `MEMBER`->member_id as member_id,
   `MEMBER`->member_name as member_name,
-  `MEMBER`->member_photo as member_photo,
   `GROUP`->group_name as group_name,
   `GROUP`->group_id as group_id,
   (CAST(`GROUP`->group_lat AS STRING) + ',' + CAST(`GROUP`->group_lon AS STRING)) as group_location,
@@ -93,9 +93,7 @@ SELECT
   `EVENT`->event_id AS event_id,
   `EVENT`->event_name AS event_name,
   TIMESTAMPTOSTRING(`EVENT`->time, 'yyyy-MM-dd HH:mm:ss.SSS') as event_time,
-  `EVENT`->event_id AS event_id,
   `EVENT`->event_url AS event_url,
-  `response` as guest_response,
   visibility,
   guests,
   TIMESTAMPTOSTRING(mtime, 'yyyy-MM-dd HH:mm:ss.SSS') AS timestring
