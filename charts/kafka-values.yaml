@@ -1,11 +1,13 @@
 ## ----
 ## Values for Confluent Platform (Kafka and friends)
 ## ----
+## https://github.com/confluentinc/cp-helm-charts/blob/master/values.yaml
+
 
 brokers: 2
 
 cp-zookeeper:
-  imageTag: 5.4.2
+  #  imageTag: 5.4.2
   # servers: 1
   persistence:
     enabled: false
@@ -17,17 +19,21 @@ cp-kafka:
     enabled: false
 
 cp-control-center:
-  imageTag: 5.4.1
+  #  imageTag: 5.4.2
   enabled: true
-#  resources:
-#    limits:
-#      cpu: 100m
-#      memory: 128Mi
-#  configurationOverrides:
-#    "replication.factor": 1
+  resources:
+    ## If you do want to specify resources, uncomment the following lines, adjust them as necessary,
+    ## and remove the curly braces after 'resources:'
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+
 
 cp-kafka-connect:
-  imageTag: 5.4.2
+#  imageTag: 5.4.2
 
 #  configurationOverrides:
 #    "config.storage.replication.factor": 1
