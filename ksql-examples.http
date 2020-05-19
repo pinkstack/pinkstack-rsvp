@@ -9,4 +9,213 @@ Content-Type: application/vnd.ksql.v1+json; charset=utf-8
   }
 }
 
+### ES
+GET http://elasticsearch-master:9200/
+Content-Type: application/json
+
+
+### curl -X POST -H "Content-Type: application/json" --data '{"name": "local-file-sink", "config": {"connector.class":"FileStreamSinkConnector", "tasks.max":"1", "file":"test.sink.txt", "topics":"connect-test" }}' http://localhost:8083/connectors
+PUT http://one-cp-kafka-connect:8083/connectors/rsvps-to-es/config
+Content-Type: application/json
+
+{
+  "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+  "key.converter": "org.apache.kafka.connect.storage.StringConverter",
+  "value.converter": "io.confluent.connect.avro.AvroConverter",
+  "topics": "rsvps",
+  "errors.log.enable": "true",
+  "connection.url": "http://elasticsearch-master:9200",
+  "type.name": "rsvp",
+  "key.ignore": "true",
+  "value.converter.schema.registry.url": "http://one-cp-schema-registry:8081",
+  "key.converter.schema.registry.url": "http://one-cp-schema-registry:8081"
+}
+
 ###
+GET http://elasticsearch-master:9200/_cat/indices
+
+###
+GET http://elasticsearch-master:9200/rsvps_formatted/_mapping
+
+###
+PUT http://elasticsearch-master:9200/rsvps_formatted/_mapping/GROUP_LOCATION
+Content-Type: application/json
+
+{
+  "properties": {
+    "type": "geo_point"
+  }
+}
+
+###
+PUT http://elasticsearch-master:9200/rsvps_formatted/_mapping/_doc?include_type_name=false
+Content-Type: application/json
+
+{
+  "properties": {
+    "GROUP_LOCATION": {
+      "type": "geo_point"
+    }
+  }
+}
+
+
+###
+PUT http://elasticsearch-master:9200/rsvps_formatted/_doc/_mapping?include_type_name=true
+Content-Type: application/json
+
+{
+  "mappings": {
+    "properties": {
+      "GROUP_LOCATION": {
+        "type": "geo_point"
+      }
+    }
+  }
+}
+
+###
+GET http://elasticsearch-master:9200/rsvps_formatted/_mapping
+
+
+### ES
+GET http://elasticsearch-master:9200/rsvps_formatted
+Content-Type: application/json
+
+### ES
+DELETE http://elasticsearch-master:9200/rsvps_formatted
+Content-Type: application/json
+
+### Create index
+PUT http://elasticsearch-master:9200/rsvps_formatted?include_type_name=true
+Content-Type: application/json
+
+{
+  "aliases": {},
+  "mappings": {
+    "rsvps_formatted": {
+      "properties": {
+        "EVENT_ID": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "EVENT_NAME": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "EVENT_TIME": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "EVENT_URL": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GROUP_CITY": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GROUP_COUNTRY": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GROUP_ID": {
+          "type": "long"
+        },
+        "GROUP_LOCATION": {
+          "type": "geo_point"
+        },
+        "GROUP_NAME": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GROUP_STATE": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GROUP_URLNAME": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "GUESTS": {
+          "type": "long"
+        },
+        "MEMBER_ID": {
+          "type": "long"
+        },
+        "MEMBER_NAME": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "TIMESTRING": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "VISIBILITY": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+  }
+}

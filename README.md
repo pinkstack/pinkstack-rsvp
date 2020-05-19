@@ -59,6 +59,12 @@ CREATE STREAM hot_rsvps WITH(
     KEY='rsvp_id', 
     TIMESTAMP='mtime');
 
+CREATE STREAM live_rsvps WITH(
+    kafka_topic='rsvps', 
+    value_format='JSON', 
+    KEY='rsvp_id', 
+    TIMESTAMP='mtime');
+
 DESCRIBE hot_rsvps;
 ```
 
@@ -101,14 +107,49 @@ FROM rsvps_stream
 EMIT CHANGES;
 ```
 
+## Confluent Connector Definition
+
+```JSON
+{
+  "name" : "rsvps-to-es",
+  "config" : {
+    "connector.class" : "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "key.converter" : "org.apache.kafka.connect.storage.StringConverter",
+    "value.converter" : "org.apache.kafka.connect.json.JsonConverter",
+    "topics" : "RSVPS_FORMATTED",
+    "errors.log.enable" : "true",
+    "errors.deadletterqueue.topic.replication.factor" : "1",
+    "connection.url" : "http://elasticsearch-master:9200",
+    "type.name" : "rsvps_formatted",
+    "key.ignore" : "true",
+    "schema.ignore" : "true",
+    "value.converter.schema.registry.url" : "http://one-cp-schema-registry:8081",
+    "value.converter.schemas.enable" : "false",
+    "key.converter.schema.registry.url" : "http://one-cp-schema-registry:8081"
+  }
+}
+
+```
+
 ## HELM & K8
 
 ```bash
+# Confluent platform w/ Kafka
 helm repo add confluentinc https://confluentinc.github.io/cp-helm-charts/
 helm install one confluentinc/cp-helm-charts --atomic -f charts/kafka-values.yaml
+
+# Elastic search
+helm repo add elastic https://helm.elastic.co
+helm install es elastic/elasticsearch -f charts/elasticsearch-values.yaml --atomic
+
+
+# Kibana
+helm install kib elastic/kibana -f charts/kibana-values.yaml --atomic
 ```
 
+## Tools
 
+- [kubefwd](https://github.com/txn2/kubefwd)
 
 ## Resources
 
