@@ -82,6 +82,31 @@ CREATE TABLE TOP_EVENTS AS
     EMIT CHANGES;
 ```
 
+Stream with flattened location for compliance with [ElasticSearch Geo-point datatype](https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html).
+
+```SQL
+CREATE STREAM rsvps_formatted WITH (VALUE_FORMAT='JSON') AS
+SELECT 
+  `MEMBER`->member_id as member_id,
+  `MEMBER`->member_name as member_name,
+  `GROUP`->group_name as group_name,
+  `GROUP`->group_id as group_id,
+  (CAST(`GROUP`->group_lat AS STRING) + ',' + CAST(`GROUP`->group_lon AS STRING)) as group_location,
+  `GROUP`->group_city as group_city,
+  `GROUP`->group_country as group_country,
+  `GROUP`->group_state as group_state,
+  `GROUP`->group_urlname as group_urlname,
+  `EVENT`->event_id AS event_id,
+  `EVENT`->event_name AS event_name,
+  TIMESTAMPTOSTRING(`EVENT`->time, 'yyyy-MM-dd HH:mm:ss.SSS') as event_time,
+  `EVENT`->event_url AS event_url,
+  visibility,
+  guests,
+  TIMESTAMPTOSTRING(mtime, 'yyyy-MM-dd HH:mm:ss.SSS') AS timestring
+FROM rsvps_stream
+EMIT CHANGES;
+```
+
 ## Confluent Connector Definition
 
 ```JSON
@@ -103,6 +128,7 @@ CREATE TABLE TOP_EVENTS AS
     "key.converter.schema.registry.url" : "http://one-cp-schema-registry:8081"
   }
 }
+
 ```
 
 ## HELM & K8
