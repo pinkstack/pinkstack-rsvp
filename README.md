@@ -1,5 +1,7 @@
 # Pinkstack RSVP Experiment
 
+![Flow](./flow.png)
+
 ## Pinkstack RSVP Feeder
 
 [![rsvp-feeder-shield][rsvp-feeder-shield]][rsvp-feeder-docker-hub]
