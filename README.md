@@ -52,7 +52,7 @@ sbt dockerize && kubectl apply -f kubernetes/rsvp-deployment.yaml
 ksql http://localhost:8088
 ```
 
-Creating a `hot_rsvps` stream out of `rsvps` topic
+Creating a `hot_rsvps` stream out of `rsvps` Kafka topic
 
 ```SQL
 CREATE STREAM hot_rsvps WITH(
@@ -69,6 +69,8 @@ CREATE STREAM live_rsvps WITH(
 
 DESCRIBE hot_rsvps;
 ```
+
+Experimenting with aggregation and KSQL tables.
 
 ```SQL
 CREATE TABLE TOP_EVENTS AS
