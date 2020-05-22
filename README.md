@@ -4,6 +4,9 @@ High-level system diagram of pinkstack-rsvp.
 
 ![Flow](./flow.png)
 
+Visualisation done in Elastic Kibana
+
+![Visualisation in Elastic Kibana - Map](./pinkstack-kibana-vis.png)
 
 ## Pinkstack RSVP Feeder
 
