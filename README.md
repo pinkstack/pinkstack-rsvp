@@ -1,6 +1,9 @@
 # Pinkstack RSVP Experiment
 
+High-level system diagram of pinkstack-rsvp.
+
 ![Flow](./flow.png)
+
 
 ## Pinkstack RSVP Feeder
 
